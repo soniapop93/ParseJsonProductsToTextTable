@@ -4,7 +4,7 @@ namespace ParseJsonProductsToTextTable.Json
 {
     public class RequestManager
     {
-        public static string getRequest(string apiEndpoint)
+        private string getRequest(string apiEndpoint)
         {
             Console.WriteLine("Will request response from endpoint: {0}", apiEndpoint);
             string responseContent = "";
@@ -21,6 +21,13 @@ namespace ParseJsonProductsToTextTable.Json
                 responseContent = response.Content;
             }
             return responseContent;
+        }
+
+        public string getProducts(string endpoint)
+        {
+            string response = getRequest(endpoint);
+
+            return response;
         }
     }
 }

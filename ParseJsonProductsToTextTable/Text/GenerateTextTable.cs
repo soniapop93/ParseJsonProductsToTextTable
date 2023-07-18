@@ -6,9 +6,11 @@ namespace ParseJsonProductsToTextTable.Text
     {
         string text { get; set; }
 
-        public void generateTable(Products products)
+        public string generateTable(Products products)
         {
+            text = "";
             List<int> itemsLength = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            List<string> columns = new List<string>() { "ID", "Title", "Description", "Price", "Discount Percentage", "Rating", "Stock", "Brand", "Category", "Thumbnail" };
 
             List<Product> productsList = products.products;
 
@@ -25,12 +27,34 @@ namespace ParseJsonProductsToTextTable.Text
                 itemsLength[8] = productsList[i].category.Length > itemsLength[8] ? productsList[i].category.Length : itemsLength[8]; // category
                 itemsLength[9] = productsList[i].thumbnail.Length > itemsLength[9] ? productsList[i].thumbnail.Length : itemsLength[9]; // thumbnail
 
+                if (!text.Contains(columns[0].ToString()))
+                {
+                    text += columns[0] + addSpaces(itemsLength[0] - columns[0].Length) + " | \n";
+
+                }
+                else
+                {
+                    text += productsList[i].id.ToString() + addSpaces(itemsLength[0] - productsList[i].id.ToString().Length) + " | \n";
+                }
             }
+
+            return text;
         }
 
         public void generateColumn(string text, int len)
         {
 
+        }
+
+        private string addSpaces(int len)
+        {
+            string spacesStr = "";
+            
+            for (int i = 0; i < len; i++)
+            {
+                spacesStr = spacesStr + " ";
+            }
+            return spacesStr;
         }
 
     }

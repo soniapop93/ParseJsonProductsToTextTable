@@ -1,4 +1,5 @@
 ﻿using ParseJsonProductsToTextTable.Json;
+using ParseJsonProductsToTextTable.Text;
 using System.Diagnostics.Metrics;
 using System.Text.Json;
 
@@ -18,6 +19,7 @@ public class Program
         Console.WriteLine("------------------------ SCRIPT STARTED ------------------------");
 
         RequestManager requestManager = new RequestManager();
+        GenerateTextTable generateTextTable = new GenerateTextTable();
 
         string response = requestManager.getProducts("https://dummyjson.com/products");
 
@@ -26,6 +28,8 @@ public class Program
         if (!String.IsNullOrEmpty(response))
         {
            Products products = JsonSerializer.Deserialize<Products>(response);
+           Console.WriteLine(generateTextTable.generateTable(products));
+
 
         }
         else

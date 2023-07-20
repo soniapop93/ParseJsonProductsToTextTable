@@ -19,7 +19,10 @@ namespace ParseJsonProductsToTextTable.Text
             {
                 itemsLength[0] = productsList[i].id.ToString().Length > itemsLength[0] ? productsList[i].id.ToString().Length : itemsLength[0]; // id
                 itemsLength[1] = productsList[i].title.Length > itemsLength[1] ? productsList[i].title.Length : itemsLength[1]; // title
-                itemsLength[2] = productsList[i].description.Length > itemsLength[2] ? productsList[i].description.Length : itemsLength[2]; // description
+
+                string description = checkLenDescription(productsList[i].description);
+
+                itemsLength[2] = description.Length > itemsLength[2] ? description.Length : itemsLength[2]; // description
                 itemsLength[3] = productsList[i].price.ToString().Length > itemsLength[3] ? productsList[i].price.ToString().Length : itemsLength[3]; // price
                 itemsLength[4] = productsList[i].discountPercentage.ToString().Length > itemsLength[4] ? productsList[i].discountPercentage.ToString().Length : itemsLength[4]; // discount Percentage
                 itemsLength[5] = productsList[i].rating.ToString().Length > itemsLength[5] ? productsList[i].rating.ToString().Length : itemsLength[5]; // rating
@@ -29,9 +32,14 @@ namespace ParseJsonProductsToTextTable.Text
                 itemsLength[9] = productsList[i].thumbnail.Length > itemsLength[9] ? productsList[i].thumbnail.Length : itemsLength[9]; // thumbnail
             }
 
-
+            // add spaces
             for (int i = 0; i < itemsLength.Count; i++) 
             {
+                if (columns[i].Length > itemsLength[i])
+                {
+                    itemsLength[i] = columns[i].Length;
+                }
+
                 if (!text.Contains(columns[i].ToString()))
                 {
                     text += columns[i] + addSpaces(itemsLength[i] - columns[i].Length) + " | ";
@@ -39,13 +47,15 @@ namespace ParseJsonProductsToTextTable.Text
             }
             text += "\n";
 
-
+            // generate table
             for (int i = 0; i < productsList.Count; i++)
             {
-
                 text += productsList[i].id.ToString() + addSpaces(itemsLength[0] - productsList[i].id.ToString().Length) + " | ";
                 text += productsList[i].title + addSpaces(itemsLength[1] - productsList[i].title.Length) + " | ";
-                text += productsList[i].description + addSpaces(itemsLength[2] - productsList[i].description.Length) + " | ";
+
+                string description = checkLenDescription(productsList[i].description);
+
+                text += description + addSpaces(itemsLength[2] - description.Length) + " | ";
                 text += productsList[i].price.ToString() + addSpaces(itemsLength[3] - productsList[i].price.ToString().Length) + " | ";
                 text += productsList[i].discountPercentage.ToString() + addSpaces(itemsLength[4] - productsList[i].discountPercentage.ToString().Length) + " | ";
                 text += productsList[i].rating.ToString() + addSpaces(itemsLength[5] - productsList[i].rating.ToString().Length) + " | ";
@@ -70,5 +80,14 @@ namespace ParseJsonProductsToTextTable.Text
             return spacesStr;
         }
 
+        // check the length of the description
+        private string checkLenDescription(string description)
+        {
+            if (description.Length > 30)
+            {
+                return description.Substring(0, 30) + "..."; 
+            }
+            return description;
+        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using ParseJsonProductsToTextTable.Json;
 using ParseJsonProductsToTextTable.Text;
-using System.Diagnostics.Metrics;
-using System.IO;
 using System.Text.Json;
 
 public class Program
